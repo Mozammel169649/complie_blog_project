@@ -1,0 +1,9 @@
+table tbody tr td {
+    vertical-align: middle;
+}
+.show-detelse-table td:nth-child(1){
+    width: 120px;
+}
+.show-detelse-table td:nth-child(2){
+    width: 2px;
+}
