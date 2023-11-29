@@ -83,6 +83,8 @@ const bannerControllers = {
         return res.render(`backend/${bannerControllers.folder_prefix}/all`, { data, count, page, limit, key });
     },
 
+    
+
     create: async function (req, res) {
         const categories = await categoryModel.find();
         return res.render(`backend/${bannerControllers.folder_prefix}/create`, { categories});
