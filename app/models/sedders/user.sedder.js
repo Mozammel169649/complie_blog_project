@@ -1,4 +1,4 @@
-const { default: mongoose, Schema } = require("mongoose");
+const { default: mongoose } = require("mongoose");
 const { db_url } = require("../../../configs/db.config");
 const userModel = require("../user.model");
 
