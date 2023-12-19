@@ -16,6 +16,8 @@ module.exports = mongoose.model(
             type: String,
             default: 'user',
         }
-    }, {
+    }, 
+    {
         timestamps: true,
-    }));
+    }
+    ));
