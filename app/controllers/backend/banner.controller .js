@@ -82,14 +82,10 @@ const bannerControllers = {
         let count = await bannerModel.count();
         return res.render(`backend/${bannerControllers.folder_prefix}/all`, { data, count, page, limit, key });
     },
-
-    
-
     create: async function (req, res) {
         const categories = await categoryModel.find();
         return res.render(`backend/${bannerControllers.folder_prefix}/create`, { categories});
     },
-
     store: async function (req, res) {
 
 
@@ -130,20 +126,17 @@ const bannerControllers = {
 
         return res.redirect(`/dashboard/${bannerControllers.route_prefix}`);
     },
-
     show: async function (req, res) {
         let data = await bannerModel.where({ _id: req.params.id }).findOne().populate("category");
         let date = new Date(data.writing_date);
         let writing_date = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,"0")}-${(date.getDate()).toString().padStart(2,'0')}`;
         return res.render(`backend/${bannerControllers.folder_prefix}/show`, { data , writing_date});
     },
-
     edit: async function (req, res) {
         const categories = await categoryModel.find();
         let data = await bannerModel.findOne().where({ _id: req.params.id });
         return res.render(`backend/${bannerControllers.folder_prefix}/edit`, { data, categories});
     },
-
     editSubmit: async function (req, res) {
 
         let validator = await blog_store_validate(req);
@@ -180,12 +173,10 @@ const bannerControllers = {
         }
         return res.json(banner);
     },
-
     delete: async function (req, res) {
         await bannerModel.deleteOne().where({ _id: req.params.id });
         return res.redirect(`/dashboard/${bannerControllers.route_prefix}`);
     },
-
     from_ids: async function (req, res) {
         let in_ids = req.body.in_ids; // it alwayse take a object [{},{}] , its a array
         let categories = await bannerModel.where("_id").in(in_ids).find().populate('creator').exec();
