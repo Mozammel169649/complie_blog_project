@@ -7,11 +7,10 @@ module.exports = async (server, req, res, next) => {
     let recent2post = await blogModel.find().sort({createdAt : -1}).limit(2).populate('creator').populate('category');
     let categories = await categoryModel.find(); 
 
-
     let categoryView = await categoryModel.find();
 	categoryView = await count_post(categoryView);
 
-	 async function count_post(els) {
+	 async function count_post(els){
 		let temp = [];
 		for (let index = 0; index < els.length; index++) {
 
@@ -23,7 +22,6 @@ module.exports = async (server, req, res, next) => {
 		return temp
 
 	};
-
 
     server.locals.categoryView = categoryView ;
     server.locals.setting = setting ;
