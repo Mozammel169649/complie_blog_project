@@ -3,6 +3,7 @@ const categoryModel = require("../../models/category.model");
 const blogModel = require("../../models/blog.model");
 const translatorModel = require("../../models/translator.model");
 const writerModel = require("../../models/writer.model");
+
 const { body, validationResult } = require("express-validator");
 var fs = require('fs-extra');
 const { dirname } = require('path');
@@ -235,9 +236,6 @@ const blogControllers = {
         await blogModel.deleteOne().where({ _id: req.params.id });
         return res.redirect(`/dashboard/${blogControllers.route_prefix}`);
     },
-
-
-
     from_ids: async function (req, res) {
         let in_ids = req.body.in_ids; // it alwayse take a object [{},{}] , its a array
         let categories = await blogModel.where("_id").in(in_ids).find().populate('creator').exec();
