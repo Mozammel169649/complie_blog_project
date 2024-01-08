@@ -1,0 +1,47 @@
+<%- include('../layouts/frontend/head',) %>
+    <section>
+        <div class="container">
+            <center class="pt-2"> 
+                <h2>User Register</h2>
+            </center>
+            <form method="POST" class="w-50 mx-auto" action="/signUp-submit" >
+               <div class="form-group mb-4">
+                 <label for="name">User Name</label>
+                 <input class="form-control" value="<%= old?.userName %>" type="text" name="userName" id="name">
+                 <div class="text-danger">
+                  <% if (error?.userName) { %>
+                     <%= error?.userName %>
+                  <% } %>
+                 </div>
+               </div>
+               <div class="form-group mb-4">
+                 <label for="email">Email</label>
+                 <input class="form-control"  value="<%= old?.email %>" type="email" name="email" id="email">
+                 <div class="text-danger">
+                  <% if (error?.email) { %>
+                     <%= error.email %>
+                  <% } %>
+                 </div>
+               </div>
+               <div class="form-group mb-4">
+                <label for="pass">Password</label>
+                <input class="form-control"  value="<%= old?.password %>" type="password" name="password" id="pass">
+                <div class="text-danger">
+                  <% if (error?.password) { %>
+                     <%= error.password %>
+                  <% } %>
+                 </div>
+              </div>
+               <div class="form-group mb-4">
+                <label for="Cpass">Confirm Password</label>
+                <input class="form-control" type="password" value="<%= old?.password_confirmation %>" name="password_confirmation" id="Cpass">
+                <div class="text-danger">
+                  <% if (error?.password_confirmation) { %>
+                     <%= error.password_confirmation  %>
+                  <% } %>
+                 </div>
+              </div>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form> 
+        </div>
+    </section>
