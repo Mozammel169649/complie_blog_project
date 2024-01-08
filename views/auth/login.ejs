@@ -1,0 +1,36 @@
+<%- include('../layouts/frontend/head',) %>
+  <section class="mb-4">
+    <div class="container col-6">
+      <center class="pt-2">
+        <h1>Login</h1>
+      </center>
+
+      <form method="POST" class=" mx-auto" action="/login-submit">
+        <div class="form-group mb-4">
+          <label for="email">Email</label>
+          <input class="form-control" value="admin@gmail.com" type="email" name="email" id="email">
+          <div class="text-danger">
+            <% if (login_error?.email){ %>
+              <%= login_error.email %>
+                <% } %>
+          </div>
+        </div>
+        <div class="form-group mb-4">
+          <label for="pass">Password</label>
+          <input class="form-control" value="admin" type="password" name="password" id="pass">
+          <div class="text-danger">
+            <% if (login_error?.password) { %>
+              <%= login_error.password %>
+                <% } %>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success">Login</button>
+      </form>
+      <center>
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <a href="/register" class="btn btn-primary">Sign_UP</a>
+        </div>
+      </center>
+    </div>
+  </section>
+  
