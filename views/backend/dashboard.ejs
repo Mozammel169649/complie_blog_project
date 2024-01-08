@@ -1,0 +1,114 @@
+<%- include('../layouts/dashboard/hade') %>
+    <%- include('../layouts/dashboard/top_nav') %>
+        <%- include('../layouts/dashboard/main_content_tophtmlpart') %>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <div>
+                            <div class="main main-app p-3 p-lg-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                  <div>
+                                    <ol class="breadcrumb fs-sm mb-1">
+                                      <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                      <li class="breadcrumb-item active" aria-current="page">Website Analytics</li>
+                                    </ol>
+                                    <h4 class="main-title mb-0">Welcome to Dashboard</h4>
+                                  </div>
+                                  <nav class="nav nav-icon nav-icon-lg">
+                                    <a href="#" class="nav-link" data-bs-toggle="tooltip" title="Share"><i class="ri-share-line"></i></a>
+                                    <a href="#" class="nav-link" data-bs-toggle="tooltip" title="Print"><i class="ri-printer-line"></i></a>
+                                    <a href="#" class="nav-link" data-bs-toggle="tooltip" title="Report"><i class="ri-bar-chart-2-line"></i></a>
+                                  </nav>
+                                </div>
+                          
+                                <div class="row g-3 justify-content-center mb-4">
+                                  <div class="col-md-6 col-xl-4">
+                                    <div class="card card-one">
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-7">
+                                            <h3 class="card-value mb-1"><%= blog.length %></h3>
+                                            <label class="card-title fw-medium text-dark mb-1">Total post</label>
+                                           
+                                          </div><!-- col -->
+                                          <div class="col-5">
+                                            <div id="apexChart1"></div>
+                                          </div><!-- col -->
+                                        </div><!-- row -->
+                                      </div><!-- card-body -->
+                                    </div><!-- card-one -->
+                                  </div><!-- col -->
+                                  <div class="col-md-6 col-xl-4">
+                                    <div class="card card-one">
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-7">
+                                            <h3 class="card-value mb-1"><%= user.length %></h3>
+                                            <label class="card-title fw-medium text-dark mb-1">Total Users</label>
+                                           
+                                          </div><!-- col -->
+                                          <div class="col-5">
+                                            <div id="apexChart2"></div>
+                                          </div><!-- col -->
+                                        </div><!-- row -->
+                                      </div><!-- card-body -->
+                                    </div><!-- card-one -->
+                                  </div><!-- col -->
+                                  <div class="col-md-6 col-xl-4">
+                                    <div class="card card-one">
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-7">
+                                            <h3 class="card-value mb-1"><%= views %></h3>
+                                            <label class="card-title fw-medium text-dark mb-1">Total view</label>
+                                            
+                                          </div><!-- col -->
+                                          <div class="col-5">
+                                            <div id="apexChart3"></div>
+                                          </div><!-- col -->
+                                        </div><!-- row -->
+                                      </div><!-- card-body -->
+                                    </div><!-- card-one -->
+                                  </div><!-- col -->
+                                </div><!-- row -->
+                                 <h4 class=" mb-2"> <b>Top 5 post</b></h4>
+                                <table class="table table-hover table-bordered">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Title</th>
+                                            <th>Creator</th>
+                                            <th>Views</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                       <% data.forEach(ele => { %>
+                                        <tr>
+                                            <td>
+                                                <img height="40px" src="/<%= ele.thumb_image %>" alt="">
+                                            </td>
+                                            <td>
+                                                 <%= ele.title%>
+                                            </td>
+                                            <td>
+                                               <%= ele.creator?.userName %>
+                                            </td>
+                                            <td>
+                                                <%= ele.view %>
+                                            </td>
+                                        </tr>
+                                       <% }) %>
+                                    </tbody>
+                                </table>
+                          
+                                <div class="main-footer mt-5">
+                                  <span>&copy; 2023. Dashbyte. All Rights Reserved.</span>
+                                  <span>Created by: <a href="http://themepixels.me/" target="_blank">Themepixels</a></span>
+                                </div><!-- main-footer -->
+                              </div><!-- main -->
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <%- include('../layouts/dashboard/main_content_bottomhtmlpart') %>
