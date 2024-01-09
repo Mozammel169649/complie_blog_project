@@ -31,13 +31,6 @@ module.exports = () =>
 			await categoryModel.deleteMany({});
 			let response = await categoryModel.insertMany(categories);
 
-			// for (let i = 0; i < 50; i++) {
-			// 	await categoryModel.create({
-			// 		title : "category"+ i,
-			// 		creator : "64c8470fa9aaec4787ca3a98"
-			// 	})
-			// }
-
 			console.log("catetgory seeding complete");
 
 		});
