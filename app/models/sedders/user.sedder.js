@@ -7,6 +7,7 @@ let users = [
 		userName: "admin",
 		email: "admin@gmail.com",
 		password:"$2b$12$7/AEv2vyK3ezRF6tL15ws.EDOSva1qdV2W4V3z52IgXFo9eknFTH.",
+		role:true,
 	},
 	{
 		userName: "user",
