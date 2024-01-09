@@ -14,7 +14,7 @@ module.exports = mongoose.model(
         },
         role: {
             type: String,
-            default: 'user',
+            default: false,
         }
     }, 
     {
