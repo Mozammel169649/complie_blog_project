@@ -34,7 +34,6 @@ router.use(messageRoutes())
 
 
 router.use(isauthAdminMiddleware)
-
 router.use(settingRoutes())
 router.use(categoryRoutes())
 router.use(blogRoutes())
