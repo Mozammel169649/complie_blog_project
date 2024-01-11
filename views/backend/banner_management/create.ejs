@@ -1,0 +1,188 @@
+<%- include('../../layouts/dashboard/hade') %>
+    <%- include('../../layouts/dashboard/top_nav') %>
+        <%- include('../../layouts/dashboard/main_content_tophtmlpart') %>
+            <link rel="stylesheet" href="/backend/plugins/select-2/css.css">
+            <script src="/backend/plugins/select-2/js.js"></script>
+            <script src="/backend/plugins/select-2/tinye.js"></script>
+
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Static Navigation</li>
+                        </ol>
+                        <div>
+                            <div class="card">
+                                <div class="card-hader">
+                                    <h2 class="m-2 align-items-center">Creat Banner</h2>
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST" onsubmit="save_data()" action="/dashboard/banner/create"
+                                        enctype="multipart/form-data">
+
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between">
+                                                <h3>Create</h3>
+                                                <div>
+                                                    <a class="btn btn-sm btn-outline-success"
+                                                        href="/dashboard/banner">Back</a>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-8 justify-content-center mx-auto">
+                                                        <div class="form-group mb-3">
+                                                            <label for="title">title</label>
+                                                            <input name="title" id="title" type="text"
+                                                                class="form-control">
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="category">Category</label>
+                                                            <select multiple name="category[]" id="category"
+                                                                class="form-select category_select">
+                                                                <% categories.forEach(category=> { %>
+                                                                    <option value="<%= category._id %>">
+                                                                        <%= category.title %>
+                                                                    </option>
+                                                                    <% }) %>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="link">Blog link</label>
+                                                            <textarea name="blog_link" cols="10" rows="5" id="link"
+                                                                type="text" class="form-control"></textarea>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="writing_date">writing_date</label>
+                                                            <input name="writing_date" id="writing_date" type="date"
+                                                                class="form-control">
+                                                        </div>
+
+                                                        <div class="form-group mb-3">
+                                                            <label for="thumb_image">thumb_image</label>
+                                                            <input name="thumb_image" id="thumb_image" type="file"
+                                                                accept="image/*" onchange="thumb_preview()"
+                                                                class="form-control">
+                                                            <div>
+                                                                <img src="" width="120px" id="thumb_image_preview"
+                                                                    alt="">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-info">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="card-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <style>
+                img {
+                    object-fit: cover;
+                }
+            </style>
+            <script>
+
+                $(document).ready(function () {
+
+                    let configs = {
+                        placeholder: "Select an Options",
+                        allowClear: true
+                    }
+                    $('.translator_select').select2(configs);
+                    $('.category_select').select2(configs);
+                    $('.writer_select').select2(configs);
+                    $('.tag_select').select2({ ...configs, tags: true });
+
+
+
+                    tinymce.init({
+                        selector: '#description'
+                    });
+                    tinymce.init({
+                        selector: '#short_description'
+                    });
+                });
+
+
+                function thumb_preview() {
+                    thumb_image_preview.src = URL.createObjectURL(event.target.files[0])
+                }
+
+                function related_images_prev() {
+                    related_images_preview.innerHTML = [...event.target.files].map((file) => `<img width="120px" src="${URL.createObjectURL(file)}">`).join(' ')
+                }
+
+
+
+                async function save_data() {
+                    event.preventDefault();
+                    let form = event.target;
+
+                    [...document.querySelectorAll('.form_error')].forEach(el => el.remove());
+
+                    let formData = new FormData(form);
+
+                    let response = await fetch(`${form.action}`, {
+                        method: form.method,
+                        headers: {
+                            //"Content-Type": "application/json",
+                            //'Content-Type': 'application/*',
+                        },
+                        body: formData,
+                    })
+
+                    let status = response.status;
+                    let data = await response.json();
+                    console.log(data);
+
+
+                    if (data.hasError) {
+
+                        s_alert('data validation error', 'error')
+                        let errors = data.errors;
+                        console.log(errors);
+
+                        errors.forEach(el => {
+                            document.getElementById(el.path)?.parentNode.insertAdjacentHTML('beforeend', `
+                                <div class="form_error text-danger">${el.msg}</div>
+                            `)
+                        })
+                        return 0;
+                    }
+
+                    if ([400, 500, 404, 422, 505].includes(status)) {
+                        console.log(data);
+                        s_alert(data?.error?._message, 'error');
+                        throw new Error(data?.error?.message)
+                    }
+                    s_alert('data uploaded successfully');
+                    form.reset();
+                    reset_select();
+                    console.log(data);
+                }
+
+                function reset_select() {
+                    $('.category_select').val([]).change();
+                    $('.writer_select').val([]).change();
+                    $('.translator_select').val([]).change();
+                    $('.tag_select').val([]).change();
+                }
+
+            </script>
+            <%- include('../../layouts/dashboard/main_content_bottomhtmlpart') %>
