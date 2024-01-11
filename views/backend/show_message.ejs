@@ -1,0 +1,39 @@
+<%- include('../layouts/dashboard/hade') %>
+    <%- include('../layouts/dashboard/top_nav') %>
+        <%- include('../layouts/dashboard/main_content_tophtmlpart') %>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h2>All Message</h2>
+                        <table class="table table-hover table-bordered  mb-4">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                               <% message.forEach(ele => { %>
+                                <tr>
+                                    <td>
+                                        <%= ele.name%>
+                                    </td>
+                                    <td>
+                                         <%= ele.number%>
+                                    </td>
+                                    <td>
+                                       <%= ele.email_id%>
+                                    </td>
+                                    <td>
+                                        <%- ele.message %>
+                                    </td>
+                                </tr>
+                               <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+            <%- include('../layouts/dashboard/main_content_bottomhtmlpart') %>
