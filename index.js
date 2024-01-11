@@ -8,21 +8,18 @@ const { db_url } = require('./configs/db.config');
 const formData = require('express-form-data');
 
 
+
+
 const cookieParser = require('cookie-parser');
 server.use(cookieParser());
-
-
 
 /* express session part start */
 const session = require('express-session');
 server.use(express.static("public"))
 /* express session part end */
 
-
 /* body parser part start */
-
 const bodyParser = require("body-parser");
-const glovelMiddleware = require('./app/middelware/global.middleware');
 const globalMiddleware = require('./app/middelware/global.middleware');
 
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -31,7 +28,7 @@ server.use(formData.parse());
 server.use(express.urlencoded({
     extended: true
 }))
-
+ 
 server.set('json spaces', 4);
 /* body parser part end */
 
@@ -76,7 +73,7 @@ server.use(async (req, res, next) => {
     }
     await checkAuthMiddleware(server, req, res, next);
     await globalMiddleware(server, req, res, next);
-    // await checkAdminMiddleware(server, req, res, next);
+    
     next();
 })
 
