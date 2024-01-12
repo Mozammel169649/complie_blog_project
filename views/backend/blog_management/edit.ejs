@@ -1,0 +1,299 @@
+<%- include('../../layouts/dashboard/hade') %>
+    <%- include('../../layouts/dashboard/top_nav') %>
+        <%- include('../../layouts/dashboard/main_content_tophtmlpart') %>
+            <link rel="stylesheet" href="/backend/plugins/select-2/css.css">
+            <script src="https://cdn.tiny.cloud/1/2hom0d7uzv176aenof59sq7i7d418azo7otw06gq4v0l4u87/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+            <script src="/backend/plugins/select-2/js.js"></script>
+            <!-- <script src="/backend/plugins/select-2/tinye.js"></script> -->
+
+            <div id="layoutSidenav_content">
+
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Static Navigation</li>
+                        </ol>
+                        <div>
+                            <div class="card">
+                                <div class="card-hader">
+                                    <h2 class="m-2 align-items-center">Edit Blog</h2>
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST" onsubmit="save_data()" action="/dashboard/blog/<%= data._id %>"
+                                        enctype="multipart/form-data">
+
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between">
+                                                <h3>Update</h3>
+                                                <div>
+                                                    <a class="btn btn-sm btn-outline-success"
+                                                        href="/dashboard/blog">Back</a>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-8" style="border-right: 1px solid gray">
+                                                        <div class="form-group mb-3">
+                                                            <label for="short_description">Short Description</label>
+                                                            <textarea name="short_description" id="short_description"
+                                                                class="form-control"><%= data.short_description %></textarea>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="description">Full Description</label>
+                                                            <textarea name="description" id="description"
+                                                                class="form-control"><%= data.description %></textarea>
+                                                        </div>
+                                                        <br>
+                                                        <br>
+                                                        <div>
+                                                            <h4>SEO information</h4>
+                                                            <div class="form-group mb-3">
+                                                                <label for="seo_title">seo_title</label>
+                                                                <input name="seo_title" value="<%= data.seo_title %>"
+                                                                    id="seo_title" type="text" class="form-control">
+                                                            </div>
+
+                                                            <div class="form-group mb-3">
+                                                                <label for="seo_description">seo description</label>
+                                                                <textarea name="seo_description"
+                                                                    value="" id="F"
+                                                                    class="form-control"><%= data.seo_description %></textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3">
+                                                                <label for="seo_keyword">seo keywords</label>
+                                                                <textarea name="seo_keyword"
+                                                                    value="" id="seo_keyword"
+                                                                    class="form-control"><%= data.seo_keyword %></textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3">
+                                                                <label for="tag">Tags</label>
+                                                                <select multiple name="tags[]" id="tag" class="form-select tag_select">
+                                                                    <% data.tags.forEach(tag => { %>
+                                                                        <option value="<%= tag %>"> <%= tag %></option>
+                                                                    <% }) %>
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="form-group mb-3">
+                                                            <label for="title">title</label>
+                                                            <input name="title" value="<%= data.title %>" id="title"
+                                                                type="text" class="form-control">
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="category">Category</label>
+                                                            <select multiple name="category[]" id="category"
+                                                                class="form-select category_select">
+                                                                <% categories.forEach(category=> { %>
+                                                                    <option value="<%= category._id %>">
+                                                                        <%= category.title %>
+                                                                    </option>
+                                                                    <% }) %>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="writer">writer</label>
+                                                            <select multiple name="writer" id="writer"
+                                                                class="form-select writer_select">
+                                                                <% writers.forEach(writer=> { %>
+                                                                    <option value="<%= writer._id %>">
+                                                                        <%= writer.name %>
+                                                                    </option>
+                                                                    <% }) %>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="translator">translator</label>
+                                                            <select name="translators[]" multiple id="translator"
+                                                                class="form-select translator_select">
+                                                                <% translators.forEach(translator=> { %>
+                                                                    <option value="<%= translator._id %>">
+                                                                        <%= translator.name %>
+                                                                    </option>
+                                                                    <% }) %>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="writing_date">writing_date</label>
+                                                            <input name="writing_date" id="writing_date" type="date"
+                                                                class="form-control">
+                                                        </div>
+
+                                                        <div class="form-group mb-3">
+                                                            <label for="thumb_image">thumb_image</label>
+
+                                                            
+                                                            <input name="thumb_image" id="thumb_image" type="file"
+                                                                accept="image/*" onchange="thumb_preview()"
+                                                                class="form-control">
+
+
+                                                            <div>
+                                                                <img src="/<%= data.thumb_image %>" width="120px"
+                                                                    id="thumb_image_preview" alt="">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group mb-3">
+                                                            <label for="related_images">related_images</label>
+                                                            <input name="related_images[]"
+                                                                onchange="related_images_prev()" multiple
+                                                                id="related_images" type="file" accept="image/*"
+                                                                class="form-control">
+                                                            <div id="related_images_preview"
+                                                                style="display: flex; gap:5px; flex-wrap:wrap;">
+                                                                <% data.related_images.forEach(element=> { %>
+                                                                    <img src="/<%= element %>" width="120px"
+                                                                        id="thumb_image_preview" alt="">
+                                                                    <% }) %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <div>
+                                                                <label for="published">is published?</label>
+                                                            </div>
+                                                            <label for="yes">
+                                                                <input name="published" id="yes"
+                                                                    <%=data.published?'checked':'' %> value="true"
+                                                                type="radio"> yes
+                                                            </label> &nbsp;&nbsp;
+                                                            <label for="no">
+                                                                <input name="published" id="no"
+                                                                    <%=!data.published?'checked':'' %> value="false"
+                                                                type="radio"> no
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-info">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="card-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <style>
+                img {
+                    object-fit: cover;
+                }
+            </style>
+            <script>
+
+                $(document).ready(function () {
+
+                    let configs = {
+                        placeholder: "Select an Options",
+                        allowClear: true
+                    }
+                    $('.translator_select').select2(configs);
+                    $('.category_select').select2(configs);
+                    $('.writer_select').select2(configs);
+                    $('.tag_select').select2({ ...configs, tags: true });
+
+                    const parse_data = (d) => JSON.parse(d.replaceAll('&#34;', `"`));
+
+                    $('.category_select').val(parse_data(`<%= JSON.stringify( data.category ) %>`)).trigger('change');
+                    $('.writer_select').val(parse_data(`<%= [JSON.stringify( data.writer )] %>`)).trigger('change');
+                    $('.translator_select').val(parse_data(`<%= JSON.stringify( data.translator || [] ) %>`)).trigger('change');
+                    $('.tag_select').val(parse_data(`<%= JSON.stringify( data.tags || "" ) %>`)).trigger('change');
+
+                    let date = new Date(`<%= data.writing_date %>`);
+                    let formated_date = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}-${(date.getDate()).toString().padStart(2,'0')}`;
+                    document.getElementById('writing_date').value=formated_date;
+
+ 
+                    tinymce.init({
+                        selector: '#description' ,
+                    });
+                    tinymce.init({
+                        selector: '#short_description',
+                    });
+                });
+
+
+                function thumb_preview() {
+                    thumb_image_preview.src = URL.createObjectURL(event.target.files[0])
+                }
+
+                function related_images_prev() {
+                    related_images_preview.innerHTML = [...event.target.files].map((file) => `<img width="120px" src="${URL.createObjectURL(file)}">`).join(' ')
+                }
+
+
+
+                async function save_data() {
+                    event.preventDefault();
+                    let form = event.target;
+
+                    [...document.querySelectorAll('.form_error')].forEach(el => el.remove());
+                    
+                    tinyMCE.triggerSave();
+                    let formData = new FormData(form);
+                    
+                    let response = await fetch(`${form.action}`, {
+                        method: form.method,
+                        headers: {
+                            //"Content-Type": "application/json",
+                            //'Content-Type': 'application/*',
+                        },
+                        body: formData,
+                    })
+
+                    let status = response.status;
+                    let data = await response.json();
+                    console.log(data);
+
+
+                    if (data.hasError) {
+
+                        s_alert('data validation error', 'error')
+                        let errors = data.errors;
+                        console.log(errors);
+
+                        errors.forEach(el => {
+                            document.getElementById(el.path)?.parentNode.insertAdjacentHTML('beforeend', `
+                                <div class="form_error text-danger">${el.msg}</div>
+                            `)
+                        })
+                        return 0;
+                    }
+
+                    if ([400, 500, 404, 422, 505].includes(status)) {
+                        console.log(data);
+                        s_alert(data?.error?._message, 'error');
+                        throw new Error(data?.error?.message)
+                    }
+                    s_alert('data uploaded successfully');
+                    ///form.reset();
+                   //reset_select();
+                    console.log(data);
+                }
+
+                function reset_select() {
+                    $('.category_select').val([]).change();
+                    $('.writer_select').val([]).change();
+                    $('.translator_select').val([]).change();
+                    $('.tag_select').val([]).change();
+                }
+
+            </script>
+            <%- include('../../layouts/dashboard/main_content_bottomhtmlpart') %>
