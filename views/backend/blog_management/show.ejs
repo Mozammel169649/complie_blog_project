@@ -1,0 +1,120 @@
+<%- include('../../layouts/dashboard/hade') %>
+    <%- include('../../layouts/dashboard/top_nav') %>
+        <%- include('../../layouts/dashboard/main_content_tophtmlpart') %>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Static Navigation</li>
+                        </ol>
+                        <div>
+                            <div class="card">
+                                <div class="card-hader">
+                                    <h2 class="m-2 align-items-center">Show Blog</h2>
+                                </div>
+                                <div class="card-body mx-auto  d-grid  col-8">
+                                    <table class="table table-bordered show-detelse-table">
+                                        <thead>
+                                            <tr>
+                                                <td><b>Section</b></td>
+                                                <td>:</td>
+                                                <td><b>Description</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>ID</td>
+                                                <td>:</td>
+                                                <td><%= data._id %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Title</td>
+                                                <td>:</td>
+                                                <td><%= data.title %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>creator</td>
+                                                <td>:</td>
+                                                <td><%= data.creator.userName %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Short Description</td>
+                                                <td>:</td>
+                                                <td><%- data.short_description %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Description</td>
+                                                <td>:</td>
+                                                <td><%- data.description %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>category</td>
+                                                <td>:</td>
+                                                <td><% data?.category.forEach(cata => { %>
+                                                 <li style="list-style: none;"> <%= cata.title %></li>
+                                                <% }) %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>writer</td>
+                                                <td>:</td>
+                                                <td><%= data.writer?.name %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>writing_date</td>
+                                                <td>:</td>
+                                                <td><%= writing_date %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>translator:</td>
+                                                <td>:</td>
+                                                <td><% data?.translator.forEach(tran => { %>
+                                                    <li style="list-style: none;"> <%= tran.name %></li>
+                                                   <% }) %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>tags</td>
+                                                <td>:</td>
+                                                <td><% data?.tags.forEach(tag => { %>
+                                                    <li style="list-style: none;"> <%= tag %></li>
+                                                   <% }) %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>published status</td>
+                                                <td>:</td>
+                                                <td><%= data.published %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>status</td>
+                                                <td>:</td>
+                                                <td><%= data.status %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>seo_title</td>
+                                                <td>:</td>
+                                                <td><%= data.seo_title %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>seo_description</td>
+                                                <td>:</td>
+                                                <td><%= data.seo_description %></td>
+                                            </tr>
+                                            <tr>
+                                                <td>seo_keyword</td>
+                                                <td>:</td>
+                                                <td><%= data.seo_keyword %></td>
+                                            </tr>
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="card-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <%- include('../../layouts/dashboard/main_content_bottomhtmlpart') %>
