@@ -1,0 +1,203 @@
+<%- include('../../layouts/dashboard/hade') %>
+    <%- include('../../layouts/dashboard/top_nav') %>
+        <%- include('../../layouts/dashboard/main_content_tophtmlpart') %>
+            <link rel="stylesheet" href="/backend/plugins/select-2/css.css">
+            <script src="https://cdn.tiny.cloud/1/2hom0d7uzv176aenof59sq7i7d418azo7otw06gq4v0l4u87/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+            <script src="/backend/plugins/select-2/js.js"></script>
+            <!-- <script src="/backend/plugins/select-2/tinye.js"></script> -->
+
+            <div id="layoutSidenav_content">
+
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Static Navigation</li>
+                        </ol>
+                        <div>
+                            <div class="card">
+                                <div class="card-hader">
+                                    <h2 class="m-2 align-items-center">Edit Blog</h2>
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST" onsubmit="save_data()" action="/dashboard/media/<%= data._id %>"
+                                        enctype="multipart/form-data">
+
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between">
+                                                <h3>Update</h3>
+                                                <div>
+                                                    <a class="btn btn-sm btn-outline-success"
+                                                        href="/dashboard/media">Back</a>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-8 justify-content-center mx-auto" >
+                                                    
+                                                        <div class="form-group mb-3">
+                                                            <label for="title">title</label>
+                                                            <input name="title" value="<%= data?.title %>" id="title" type="text"
+                                                                class="form-control">
+                                                        </div>
+
+                                                        <div class="form-group mb-3">
+                                                            <label for="icon">Icon</label>
+                                                            <select name="icon" class="form-control" id="icon">
+                                                                <option value="fa fa-facebook">Facebook</option>
+                                                                <option value="fa fa-instagram">Instragram</option>
+                                                                <option value="fa fa-youtube">Youtube</option>
+                                                                <option value="fa fa-twitter">Twitter</option>
+                                                                <option value="fa fa-linkedin">Linkedin</option>
+                                                                <option value="fa fa-whatsapp">whatsapp</option>
+                                                                <option value="fa fa-telegram">telegram</option>
+                                                                <option value="fa fa-vimeo">vimeo</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group mb-3">
+                                                            <label for="count">Count</label>
+                                                            <input name="count" value="<%= data?.count %>" id="count" type="text"
+                                                                class="form-control">
+                                                        </div>
+
+                                                        <div class="form-group mb-3">
+                                                            <label for="unite">Unite</label>
+                                                            <select name="unite" class="form-control"  id="unite">
+                                                                <option value="Like">Likes</option>
+                                                                <option value="Followers">Followers</option>
+                                                                <option value="Subscribers">Subscribers</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="link">link</label>
+                                                            <textarea name="link"  cols="10" rows="5" id="link" type="text"
+                                                                class="form-control"><%= data?.link %></textarea>
+                                                        </div>
+                                                
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-info">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                                <div class="card-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <style>
+                img {
+                    object-fit: cover;
+                }
+            </style>
+            <script>
+
+                $(document).ready(function () {
+
+                    let configs = {
+                        placeholder: "Select an Options",
+                        allowClear: true
+                    }
+                    $('.translator_select').select2(configs);
+                    $('.category_select').select2(configs);
+                    $('.writer_select').select2(configs);
+                    $('.tag_select').select2({ ...configs, tags: true });
+
+                    const parse_data = (d) => JSON.parse(d.replaceAll('&#34;', `"`));
+
+                    $('.category_select').val(parse_data(`<%= JSON.stringify( data.category ) %>`)).trigger('change');
+                    $('.writer_select').val(parse_data(`<%= [JSON.stringify( data.writer )] %>`)).trigger('change');
+                    $('.translator_select').val(parse_data(`<%= JSON.stringify( data.translator || [] ) %>`)).trigger('change');
+                    $('.tag_select').val(parse_data(`<%= JSON.stringify( data.tags || "" ) %>`)).trigger('change');
+
+                    let date = new Date(`<%= data.writing_date %>`);
+                    let formated_date = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}-${(date.getDate()).toString().padStart(2,'0')}`;
+                    document.getElementById('writing_date').value=formated_date;
+
+ 
+                    tinymce.init({
+                        selector: '#description' ,
+                    });
+                    tinymce.init({
+                        selector: '#short_description',
+                    });
+                });
+
+
+                function thumb_preview() {
+                    thumb_image_preview.src = URL.createObjectURL(event.target.files[0])
+                }
+
+                function related_images_prev() {
+                    related_images_preview.innerHTML = [...event.target.files].map((file) => `<img width="120px" src="${URL.createObjectURL(file)}">`).join(' ')
+                }
+
+
+
+                async function save_data() {
+                    event.preventDefault();
+                    let form = event.target;
+
+                    [...document.querySelectorAll('.form_error')].forEach(el => el.remove());
+                    
+                    tinyMCE.triggerSave();
+                    let formData = new FormData(form);
+                    
+                    let response = await fetch(`${form.action}`, {
+                        method: form.method,
+                        headers: {
+                            //"Content-Type": "application/json",
+                            //'Content-Type': 'application/*',
+                        },
+                        body: formData,
+                    })
+
+                    let status = response.status;
+                    let data = await response.json();
+                    console.log(data);
+
+
+                    if (data.hasError) {
+
+                        s_alert('data validation error', 'error')
+                        let errors = data.errors;
+                        console.log(errors);
+
+                        errors.forEach(el => {
+                            document.getElementById(el.path)?.parentNode.insertAdjacentHTML('beforeend', `
+                                <div class="form_error text-danger">${el.msg}</div>
+                            `)
+                        })
+                        return 0;
+                    }
+
+                    if ([400, 500, 404, 422, 505].includes(status)) {
+                        console.log(data);
+                        s_alert(data?.error?._message, 'error');
+                        throw new Error(data?.error?.message)
+                    }
+                    s_alert('data uploaded successfully');
+                    ///form.reset();
+                   //reset_select();
+                    console.log(data);
+                }
+
+                function reset_select() {
+                    $('.category_select').val([]).change();
+                    $('.writer_select').val([]).change();
+                    $('.translator_select').val([]).change();
+                    $('.tag_select').val([]).change();
+                }
+
+            </script>
+            <%- include('../../layouts/dashboard/main_content_bottomhtmlpart') %>
