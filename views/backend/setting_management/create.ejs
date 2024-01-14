@@ -1,0 +1,176 @@
+<%- include('../../layouts/dashboard/hade') %>
+    <%- include('../../layouts/dashboard/top_nav') %>
+        <%- include('../../layouts/dashboard/main_content_tophtmlpart') %>
+            <link rel="stylesheet" href="/backend/plugins/select-2/css.css">
+            <script src="/backend/plugins/select-2/js.js"></script>
+            <script src="/backend/plugins/select-2/tinye.js"></script>
+
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Static Navigation</li>
+                        </ol>
+                        <div>
+                            <div class="card">
+                                <div class="card-hader">
+                                    <h2 class="m-2 align-items-center">set setting</h2>
+                                </div>
+                                <div class="card-body">
+                                    <% data.forEach(ele => { %>
+                                    <form method="POST" onsubmit="save_data()" action="/dashboard/setting/<%= ele._id %>"
+                                        enctype="multipart/form-data">
+
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between">
+                                                <h3>Create</h3>
+                                                <div>
+                                                    <a class="btn btn-sm btn-outline-success"
+                                                        href="/dashboard/blog">Back</a>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                               
+                                                 
+                                                  
+                                                    <div class="row">
+                                                        <div class="">
+                                                            <div class="form-group mb-3">
+                                                                <label for="title">Title</label>
+                                                                <input name="title" value="<%= ele.title %>" placeholder="title" id="title" type="text"
+                                                                    class="form-control">
+                                                            </div>
+                                                            <div class="form-group mb-3">
+                                                                <label for="company_name">Company Name</label>
+                                                                <input name="company_name" value="<%= ele.company_name %>" placeholder="company_name" id="company_name" type="text"
+                                                                    class="form-control">
+                                                            </div>
+                                                            <div class="form-group mb-3">
+                                                                <label for="about_us">About Us</label>
+                                                                <textarea name="about_us" id="about_us"
+                                                                    class="form-control"><%= ele.about_us  %></textarea>
+                                                            </div>
+                                                            <div class="form-group mb-3">
+                                                                <label for="copy_right_status">Copy right status</label>
+                                                                <input name="copy_right_status" value="<%= ele.copy_right_status  %>" id="copy_right_status"
+                                                                    class="form-control">
+                                                            </div>
+    
+                                                            <div class="form-group mb-3">
+                                                                <label for="">Email</label>                                                                                                                                                                 
+                                                                <input name="email_account[0][email]" value="<%=ele.email_account[0]?.email %>" type="email" placeholder="Enter your email 1" class="form-control"><br>
+                                                                <input name="email_account[1][email]" value="<%=ele.email_account[1]?.email %>" type="email" placeholder="Enter your email 2" class="form-control"><br>
+                                                                <input name="email_account[2][email]" value="<%=ele.email_account[2]?.email %>" type="email" placeholder="Enter your email 2" class="form-control">
+                                                            </div>
+     
+                                                            <div class="form-group mb-3">
+                                                                <label for="">Number</label>
+                                                                <input name="mobile_number[0][number]" value="<%=ele.mobile_number[0]?.number %>"  type="text" placeholder="Enter your number 1" class="form-control"><br>
+                                                                <input name="mobile_number[1][number]" value="<%=ele.mobile_number[1]?.number %>"  type="text" placeholder="Enter your number 2" class="form-control"><br>
+                                                                <input name="mobile_number[2][number]" value="<%=ele.mobile_number[2]?.number %>"  type="text" placeholder="Enter your number 3" class="form-control">
+                                                            </div>
+                                                            <div class="form-group mb-3">
+                                                                <label for="">Social Media 1</label>
+                                                                <input name="social_link[0][title]" value="<%=ele.social_link[0]?.title %>"  type="text" placeholder="Enter your number 1" class="form-control"><br>
+                                                                <input name="social_link[0][link]" value="<%=ele.social_link[0]?.link %>"  type="text" placeholder="Enter your number 2" class="form-control"><br>  
+                                                            </div>
+                                                            <div class="form-group mb-3">
+                                                                <label for="">Social Media 2</label>
+                                                                <input name="social_link[1][title]" value="<%=ele.social_link[1]?.title %>"  type="text" placeholder="Enter your number 1" class="form-control"><br>
+                                                                <input name="social_link[1][link]" value="<%=ele.social_link[1]?.link %>"  type="text" placeholder="Enter your number 2" class="form-control"><br>  
+                                                            </div> 
+
+                                                            <div class="form-group mb-3">
+                                                                <label for="">Youtube Channel 1</label>
+                                                                <input name="youtube_link[0][channel_name]" value="<%=ele.youtube_link[0].channel_name %>"  type="text" placeholder="Enter your number 1" class="form-control"><br>
+                                                                <input name="youtube_link[0][link]" value="<%=ele.youtube_link[0]?.link %>"  type="text" placeholder="Enter your number 2" class="form-control"><br>  
+                                                            </div>   
+                                                            <div class="form-group mb-3">
+                                                                <label for="">Youtube Channel 2</label>
+                                                                <input name="youtube_link[1][channel_name]" value="<%=ele.youtube_link[1]?.channel_name %>"  type="text" placeholder="Enter your number 1" class="form-control"><br>
+                                                                <input name="youtube_link[1][link]" value="<%=ele.youtube_link[1]?.link %>"  type="text" placeholder="Enter your number 2" class="form-control"><br>  
+                                                            </div>   
+
+                                                            <div class="form-group mb-3">
+                                                                <label for="address">Address</label>
+                                                                <textarea name="address" id="address"
+                                                                    class="form-control"><%- ele?.address %></textarea>
+                                                            </div>
+    
+                                                            <div class="form-group mb-3">
+                                                                <label for="map">Map</label>
+                                                                <textarea name="map" id="map"
+                                                                    class="form-control"><%- ele?.map %></textarea>
+                                                            </div>
+    
+                                                            <div class="form-group mb-3">
+                                                                <label for="logo">Logo</label>
+                                                                <input name="logo" id="logo" type="file"
+                                                                    accept="image/*" value="" onchange="logo_preview()"
+                                                                    class="form-control">
+                                                                <div>
+                                                                    <img src="/<%= ele?.logo %>" width="120px" id="logo_preview"
+                                                                        alt="">
+                                                                </div>
+                                                            </div>
+                                                          
+                                                            <button class="btn btn-success" type="submit">Save</button>
+                                                        </div>
+                                                       
+                                                        
+                                                    </div>
+                                                
+                                               
+                                               
+                                                
+                                            </div>
+                                           
+                                        </div>
+                                    </form>
+                                    <% }) %>
+                                </div>
+
+                                <div class="card-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <style>
+                img {
+                    object-fit: cover;
+                }
+            </style>
+            <script>
+
+                $(document).ready(function () {
+
+                function logo_preview() {
+                    logo_preview.src = URL.createObjectURL(event.target.files[0])
+                }
+                })
+
+                async function save_data() {
+                    event.preventDefault();
+                    let form = event.target;
+
+                    let formData = new FormData(form);
+
+                    let response = await fetch(`${form.action}`, {
+                        method: form.method,
+                        headers: {
+                            //"Content-Type": "application/json",
+                            //'Content-Type': 'application/*',
+                        },
+                        body: formData,
+                    })
+
+                    let status = response.status;
+                    let data = await response.json();
+                }
+
+            </script>
+            <%- include('../../layouts/dashboard/main_content_bottomhtmlpart') %>
