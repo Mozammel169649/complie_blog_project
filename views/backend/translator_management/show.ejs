@@ -1,0 +1,58 @@
+<%- include('../../layouts/dashboard/top_nav') %>
+    <%- include('../../layouts/dashboard/hade') %>
+        <%- include('../../layouts/dashboard/main_content_tophtmlpart') %>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Static Navigation</li>
+                        </ol>
+                        <div>
+                            <div class="card">
+                                <div class="card-hader">
+                                    <h2 class="m-2 align-items-center">Show Translator</h2>
+                                </div>
+                                <div class="card-body mx-auto  d-grid  col-8">
+                                   <table class="table table-bordered show-detelse-table">
+                                      <thead>
+                                         <tr>
+                                            <td><b>Section</b></td>
+                                            <td>:</td>
+                                            <td><b>Description</b></td>
+                                         </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                            <td>ID</td>
+                                            <td>:</td>
+                                            <td><%= data._id %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>:</td>
+                                            <td><%= data.name %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Create</td>
+                                            <td>:</td>
+                                            <td><%= data.creator?.userName %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td>:</td>
+                                            <td><%= data.status %></td>
+                                        </tr>
+                                      </tbody>
+                                   </table>
+                                </div>
+
+                                <div class="card-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <%- include('../../layouts/dashboard/main_content_bottomhtmlpart') %>
