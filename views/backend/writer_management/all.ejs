@@ -1,0 +1,351 @@
+<%- include('../../layouts/dashboard/hade') %>
+    <%- include('../../layouts/dashboard/top_nav') %>
+        <%- include('../../layouts/dashboard/main_content_tophtmlpart') %>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Static Navigation</li>
+                        </ol>
+                        <div class="card">
+                            <div class="card-hader">
+                                <h2 class="m-2">All Writer</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-top">
+                                    <div class="datatable-top d-flex justify-content-between mb-2 flex-wrep gap-2">
+                                        <div class="datatable-dropdown">
+                                            <label class="d-flex gap-2 align-items-center">
+                                                <select onchange="set_onchange()" class="form-select">
+                                                    <option value="5" <%=limit==5&& "selected" %> >5</option>
+                                                    <option value="10" <%=limit==10&& "selected" %> >10</option>
+                                                    <option value="15" <%=limit==15&& "selected" %> >15</option>
+                                                    <option value="20" <%=limit==20&& "selected" %> >20</option>
+                                                    <option value="25" <%=limit==25&& "selected" %> >25</option>
+                                                </select>
+                                                <div style="min-width: 300px;">
+                                                    entries per page
+                                                </div>
+
+                                            </label>
+                                        </div>
+                                        <div class="datatable-search">
+                                            <div class="mb-2">
+                                                <div class="btn btn-info" onclick="bulk_handler.export_selection()">
+                                                    Export (<span class="total_selected">0</span>)</div>
+                                                <div class="btn btn-danger"
+                                                    onclick="bulk_handler.delete_selection()">Delet (<span
+                                                        class="total_selected">0</span>)</div>
+                                            </div>
+                                            <form class="d-flex">
+                                                <input value="" class="form-control" id="searchBox"
+                                                    placeholder="Search..." type="search">
+                                                <button type="submit" onclick="search()"
+                                                    class="btn btn-info btn-sm ms-2">
+                                                    <i class="fa fa-search"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-hover table-bordered">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th>
+                                                <input disabled type="checkbox" class="form-check" name="checkbox"
+                                                    id="">
+                                            </th>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Creator</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <% data.forEach(el=> { %>
+
+                                            <tr>
+                                                <td>
+                                                    <input onchange="bulk_handler.add_item('<%= el._id %>')" type="checkbox" class="form-check">
+                                                </td>
+                                                <td>
+                                                    <%= el._id %>
+                                                </td>
+
+
+                                                <td>
+                                                    <%= el.name %>
+                                                </td>
+
+                                                <td>
+                                                    <%= el.creator.userName %>
+                                                </td>
+
+                                                <td>
+                                                    <div class="form-check form-switch d-inline-block">
+                                                        <input onchange="changeStatus('<%= el._id %>')" <%= el.status?"checked":""%> class="form-check-input d-inline-block" type="checkbox"
+                                                            role="switch" id="flexSwitchCheckChecked" checked>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <a href="/dashboard/writer/<%= el._id %>/show" class="btn btn-primary mx-1">
+                                                            <i class="fas fa-eye"></i>
+                                                            View
+                                                        </a>
+                                                        <a href="/dashboard/writer/<%= el._id %>/edit" class="btn btn-warning mx-1">
+                                                            <i class="fas fa-pencil"></i>
+                                                            Edit
+                                                        </a>
+                                                        <a href="/dashboard/writer/<%= el._id %>/delet" onclick="confirm('delete data....?')" class="btn btn-danger mx-1">
+                                                            <i class="fas fa-trash"></i>
+                                                            Delete
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        <% }) %>
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <div class="left">
+                                        showing <span id="start_limit"></span> to <span id="end_limit"></span> of
+                                            <%= count %> entries
+                                    </div>
+                                    <div class="right">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination" id="paginate">
+
+                                            </ul> 
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <script src="/js/csvExport.js"></script>
+            <script>
+
+                async function changeStatus(id){
+                     let check_status = event.target.checked;
+                     let response = await fetch("/dashboard/writer/set-status" ,{
+                        method : "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            id: id,
+                            status: check_status,
+                        }),
+                     });
+                     let status = response.json();
+                     console.log(status);
+                }
+
+                async function search(){
+                    event.preventDefault();
+                    let value = document.getElementById("searchBox").value;
+                    console.log(value);
+                    let url = new URL(location.href);
+                    url.searchParams.set("key",value);
+                    console.log(url.href);
+                    location.href = url.href ;
+                }
+
+                let bulk_handler = {
+                    select_items: [],
+
+                    select_count: function () {
+                        return this.select_items.length;
+                    },
+
+                    filter_item: function (id = "") {
+                        return this.select_items.find(i => i == id);
+                    },
+
+                    remove_item: function (id = "") {
+                        return this.select_items = this.select_items.filter(i => i != id);
+                    },
+
+                    add_item: function (id = "") {
+
+                        if (this.filter_item(id)) {
+                            this.remove_item(id)
+                        } else {
+                            this.select_items.push(id)
+                        }
+                        this.render();
+                    },
+
+                    removeAll: function () {
+                        this.select_items = []
+                    },
+
+                    render: function () {
+                        let total_selectedItem = [...document.querySelectorAll('.total_selected')];
+                        total_selectedItem.forEach(el => el.innerHTML = this.select_count());
+                    },
+
+                    delete_selection: async function () {
+                        if (this.select_count() && window.confirm("are you sour you want to delet......?")) {
+                            const response = await fetch("/dashboard/writer/deletSelectedItem", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    selectItems: this.select_items,
+                                }),
+                            });
+                            let status = response.json();
+                            console.log(status);
+                        }
+                    },
+
+                    export_selection: async function () {
+
+                        if (this.select_count() && window.confirm(" Do you want to export selected item.....?")) {
+                            let response = await fetch("/dashboard/writer/for-Export-ids", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    selectItems: this.select_items,
+                                }),
+                            });
+                            let categories = await response.json();
+                            console.log(categories);
+
+                            let rows = [];
+                            categories.forEach((i) => {
+                                let { _id: id, name, creator, status } = i;
+                                rows.push([
+                                    id,
+                                    name,
+                                    creator.userName,
+                                    creator._id,
+                                    status
+                                ])
+                            })
+                            console.log(rows);
+
+
+                            csvExport.setFileName("writer.csv")
+                                .setColumns(['id', 'name', 'creator', "creator id", 'status'])
+                                .addRows(rows) //it's allwase a array
+                                .exportFile();
+                        }
+
+                    }
+
+
+                }
+
+                function set_onchange() {
+                    let url = new URL(location.href);
+                    url.searchParams.set("limit", event.target.value);
+                    location.href = url.href;
+
+                }
+                
+                function createPagination(paginationAmount = 10, dataCount = 0, currentPage = 1) {
+                    console.log(" its running")
+                    const pageCount = Math.ceil(dataCount / paginationAmount); // Calculate the total number of pages
+                    const maxDisplayedPages = 5; // Maximum number of displayed page links
+                    let paginationHTML = '';
+
+                    // Calculate the starting and ending page numbers for the displayed links
+                    let startPage = 1;
+                    let endPage = pageCount;
+
+                    if (pageCount > maxDisplayedPages) {
+                        const middlePage = Math.ceil(maxDisplayedPages / 2);
+                        if (currentPage <= middlePage) {
+                            endPage = maxDisplayedPages;
+                        } else if (currentPage >= pageCount - middlePage + 1) {
+                            startPage = pageCount - maxDisplayedPages + 1;
+                        } else {
+                            startPage = currentPage - middlePage + 1;
+                            endPage = currentPage + middlePage - 1;
+                        }
+                    }
+
+                    // Generate the HTML for the pagination
+                    paginationHTML += `
+                        <li class="page-item">
+                            <a class="page-link" onclick="goToPage(${currentPage - 1})"  href="/dashboard/category?page=${currentPage - 1}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    `;
+
+                    if (startPage > 1) {
+                        paginationHTML += `
+                            <li class="page-item">
+                                <a class="page-link" onclick="goToPage(${1})"  href="/dashboard/category?page=1">1</a>
+                            </li>
+                         `;
+                        if (startPage > 2) {
+                            paginationHTML += '<li class="page-item">... </li>';
+                        }
+                    }
+
+                    document.getElementById("start_limit").innerHTML = (currentPage * paginationAmount) - paginationAmount + 1;
+                    document.getElementById("end_limit").innerHTML = (currentPage * paginationAmount);
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        paginationHTML += `
+                            <li class="page-item">
+                                <a class="page-link" onclick="goToPage(${i})"  href="/dashboard/category?page=${i}">${i}</a>
+                            </li>
+                        `;
+                    }
+
+                    if (endPage < pageCount) {
+                        if (endPage < pageCount - 1) {
+                            paginationHTML += '<li class="page-item">... </li>';
+                        }
+                        paginationHTML += `
+                        <li class="page-item">
+                            <a class="page-link" onclick="goToPage(${pageCount})" href="/dashboard/category?page=${pageCount}">${pageCount}</a>
+                        </li>
+                      `;
+                    }
+
+                    paginationHTML += `
+                        <li class="page-item">
+                            <a class="page-link" onclick="goToPage(${currentPage + 1})" href="/dashboard/category?page=${currentPage + 1}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    `;
+
+                    return paginationHTML;
+                }
+
+                function goToPage(pageNumber) {
+                    // Perform actions to load data for the specified page
+                    console.log(`Loading data for page ${pageNumber}`);
+                    // Add your code here to load the data or perform any other necessary actions
+                    event.preventDefault();
+                    let url = new URL(location.href);
+                    url.searchParams.set("page", pageNumber);
+                    location.href = url.href;
+                }
+
+                document.getElementById("paginate").innerHTML = createPagination(+`<%= limit %>`, +`<%= count %>`, +`<%= page %>`);
+
+
+            </script>
+            <%- include('../../layouts/dashboard/main_content_bottomhtmlpart') %>
