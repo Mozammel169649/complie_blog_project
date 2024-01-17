@@ -1,0 +1,30 @@
+<%- include('./head') %>
+    <div class="container">
+        <h2 class="justify-content-center">contact page</h2> <a href="/">Home</a>
+        <div class="row justify-content-center">
+            <form method="POST" action="#" class="col-lg-8 ">
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email_ID</label>
+                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInput" class="form-label">Number</label>
+                    <input type="number" name="number" class="form-control" id="exampleInput">
+                </div>
+                <div class="mb-4">
+                    <label for="example" class="form-label">message</label>
+                    <textarea type="password" name="message" class="form-control" id="example"></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+           
+        </div>
+    </div>
+
+    <%- include('./footer') %>
