@@ -5,6 +5,7 @@ const userSedder = require("./app/models/sedders/user.sedder");
 const writerSedder = require("./app/models/sedders/writer.sedder");
 const mediaSeeder = require("./app/models/sedders/media.seeder");
 const settingSedder = require("./app/models/sedders/setting.sedder");
+const bannerSedder = require("./app/models/sedders/banner.sedder");
 
 const seed = async()=> {
 
@@ -14,6 +15,7 @@ const seed = async()=> {
    await writerSedder();
    await translatorSedder();
    await blogSedder();
+   await bannerSedder();
    await mediaSeeder();
 }
 
