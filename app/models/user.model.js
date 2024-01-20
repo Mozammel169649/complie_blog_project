@@ -13,7 +13,7 @@ module.exports = mongoose.model(
             type: String,
         },
         role: {
-            type: String,
+            type: Boolean,
             default: false,
         }
     }, 
