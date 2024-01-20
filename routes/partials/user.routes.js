@@ -11,11 +11,6 @@ router
     .post("/dashboard/banner/delete-items", userControllers.delete_items)
     .get("/dashboard/user/:id/delete", userControllers.delete)
     .get("/dashboard/user/:id", userControllers.show)
-
-
-    // .post('/dashboard/banner/create', bannerControllers.store)
-    // .post("/dashboard/banner/from-ids", bannerControllers.from_ids)
-    
     
     .get('/dashboard/user/create', async  function (req, res) {
         const Data = new userModel({ name: 'siyam', email: "siyam@gmail.com", age: 40 });
