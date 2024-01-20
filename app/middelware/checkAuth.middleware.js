@@ -12,8 +12,12 @@ module.exports = async (server, req, res, next) => {
             const decoded = await jwt.verify(atoken, '6fd286f7-708a-429b-b53a-2bc5272e0db6');
             server.locals.checkIsAuth = true;
             server.locals.user = decoded;
-
-            server.locals.isAdmin = decoded.role == true?true:false;
+            
+            const isAdminAuth = decoded.role;
+            // console.log(decoded.role , "role")
+            // console.log(isAdminAuth , "role")
+            server.locals.isAdmin = isAdminAuth
+            //console.log(server.locals.isAdmin , "isAuth")
 
             req.session.user = decoded;
         } catch (error){
