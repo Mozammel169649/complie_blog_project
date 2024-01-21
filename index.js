@@ -71,9 +71,12 @@ server.use(async (req, res, next) => {
         server.locals.old = req.session.old;
         req.session.old = {};
     }
-    await checkAuthMiddleware(server, req, res, next);
-    await globalMiddleware(server, req, res, next);
-    
+    await checkAuthMiddleware(server, req);
+    await globalMiddleware(server, req);
+
+    console.log(server.locals.user)
+    console.log(server.locals.checkIsAuth, "checkIsAuth...?")
+    console.log(server.locals.isAdmin , "isAdmin..?")
     next();
 })
 
