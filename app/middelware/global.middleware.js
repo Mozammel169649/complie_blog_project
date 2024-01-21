@@ -3,10 +3,10 @@ const categoryModel = require("../models/category.model");
 const settingModel = require("../models/setting.model");
 
 module.exports = async (server, req, res, next) => {
+
     let setting = await settingModel.find();		
     let recent2post = await blogModel.find().sort({createdAt : -1}).limit(2).populate('creator').populate('category');
-    let categories = await categoryModel.find(); 
-
+    let categories = await categoryModel.find();
     let categoryView = await categoryModel.find();
 	categoryView = await count_post(categoryView);
 
