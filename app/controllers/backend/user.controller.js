@@ -11,7 +11,7 @@ const appDir = dirname(require.main.filename);
 
 const userControllers = {
     folder_prefix: `user_management`,
-    route_prefix: `user`,
+    route_prefix: `users`,
     all: async function (req, res) {
         let page = 1;
         let skip = 0;
