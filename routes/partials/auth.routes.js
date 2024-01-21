@@ -12,6 +12,14 @@ router
         let user = req.body;
         let error = {};
         req.session.old = req.body;
+        console.log(req.body);
+
+        const isMatch = await userModel.findOne().where({email:email})
+        if(isMatch){
+            error.email = "This Email is already accessed"
+            req.session.error = error;
+            return res.redirect("/signup")
+        }
 
         if (!userName || !email || !password || !password_confirmation) {
             if (!userName) {
@@ -27,12 +35,12 @@ router
                 error.password_confirmation = "Password_confirmation is required"
             }
             req.session.error = error;
-            return res.redirect("/register")
+            return res.redirect("/signup")
         }
         if (password != password_confirmation) {
             error.password_confirmation = "password does not matched"
             req.session.error = error;
-            return res.redirect("/register")
+            return res.redirect("/signup")
         }
         const Data = new userModel({
             userName: userName,
@@ -40,12 +48,31 @@ router
             password: await bcrypt.hash(password, 12)
         });
         await Data.save();
-        req.session.isAuth = true;
-        req.session.user = user;
+
+        const userData = await userModel.findOne().where({ email:email }) 
+        if(userData){
+            req.session.isAuth = true;
+            req.session.user = userData;
+
+            let data = {
+                userName: userData.userName,
+                email: userData.email,
+                _id: userData._id,
+                role:userData.role,
+                photo_url: '',
+                device_id: '',
+                genrate_time: '',
+            };
+            
+            const token = await jwt.sign(data, '6fd286f7-708a-429b-b53a-2bc5272e0db6');
+            res.cookie('atoken',token)
+        }
+        
+
         let prev_url = req.session.prev_auth_url;
         if (prev_url) {
             delete req.session.prev_auth_url;
-            if (prev_url != '/favicon.ico') {
+            if (prev_url != '/favicon.ico' || prev_url != '/login') {
                 return res.redirect(prev_url);
             }
         }
@@ -84,6 +111,7 @@ router
                     device_id: '',
                     genrate_time: '',
                 };
+                
                 const token = await jwt.sign(data, '6fd286f7-708a-429b-b53a-2bc5272e0db6');
                 res.cookie('atoken',token)
 
@@ -91,7 +119,7 @@ router
                 let prev_url = req.session.prev_auth_url;
                 if (prev_url) {
                     delete req.session.prev_auth_url;
-                    if (prev_url != '/favicon.ico') {
+                    if (prev_url != '/favicon.ico' || prev_url != '/login') {
                         return res.cookie('atoken',token).redirect(prev_url);
                     }
                 }
