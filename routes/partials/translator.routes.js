@@ -1,5 +1,4 @@
 const express = require("express");
-const isauthMiddleware = require("../../app/middelware/isauth.middleware");
 const { translatorControllers } = require("../../app/controllers/backend/translator.controller");
 const router = express.Router();
 
