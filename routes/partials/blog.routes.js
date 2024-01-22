@@ -1,5 +1,4 @@
 const express = require('express');
-const isauthMiddleware = require('../../app/middelware/isauth.middleware');
 const { blogControllers } = require('../../app/controllers/backend/blog.controller');
 const router = express.Router()
 
