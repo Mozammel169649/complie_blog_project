@@ -1,8 +1,5 @@
 const express = require("express");
-const isauthMiddleware = require("../../app/middelware/isauth.middleware");
 const { writerController } = require("../../app/controllers/backend/writer.controller");
-const writerModel = require("../../app/models/writer.model");
-
 const router = express.Router();
 
 router
